@@ -2,16 +2,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const aboutB = document.getElementById("About");
   const contactB = document.getElementById("Contact");
   const educationB = document.getElementById("Education");
-  const t4B = document.getElementById("T4");
-  const t5B = document.getElementById("T5");
+  
   const bubble = document.querySelector('.bubble-indicator');
 
   const contentSections = {
     About: document.getElementById("aboutContent"),
     Contact: document.getElementById("contactContent"),
-    Education: document.getElementById("educationContent"),
-    T4: document.getElementById("t4Content"),
-    T5: document.getElementById("t5Content")
+    Projects: document.getElementById("educationContent"),
   };
 
   function showContent(section) {
@@ -21,15 +18,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   function moveBubble(button) {
     const rect = button.getBoundingClientRect();
+    const bodyRect = document.body.getBoundingClientRect();
     bubble.style.width = `${rect.width + 10}px`;
     bubble.style.height = `${rect.height + 10}px`;
-    bubble.style.left = `${rect.left - 5}px`;
-    bubble.style.top = `${rect.top - 5}px`;
+    bubble.style.left = `${rect.left - bodyRect.left - 5}px`;
+    bubble.style.top = `${rect.top - bodyRect.top - 5}px`;
+  }
+
+  function loadTextFile(url, elementId) {
+    fetch(url)
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById(elementId).innerText = data;
+      })
+      .catch(error => console.error('Error loading text file:', error));
   }
 
   aboutB.addEventListener('click', (event) => {
     showContent('About');
     moveBubble(event.target);
+    loadTextFile('about.txt', 'aboutText');
   });
 
   contactB.addEventListener('click', (event) => {
@@ -38,17 +46,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   });
 
   educationB.addEventListener('click', (event) => {
-    showContent('Education');
-    moveBubble(event.target);
-  });
-
-  t4B.addEventListener('click', (event) => {
-    showContent('T4');
-    moveBubble(event.target);
-  });
-
-  t5B.addEventListener('click', (event) => {
-    showContent('T5');
+    showContent('Projects');
     moveBubble(event.target);
   });
 
@@ -60,6 +58,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
   });
 
-  moveBubble(aboutB);
-  showContent('About');
+  // Move the bubble to the "About" button initially and show the About content
+  requestAnimationFrame(() => {
+    moveBubble(aboutB);
+    showContent('About');
+    loadTextFile('About.txt', 'aboutText');
+  });
 });
