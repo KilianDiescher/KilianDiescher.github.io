@@ -25,19 +25,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     bubble.style.top = `${rect.top - bodyRect.top - 5}px`;
   }
 
-  function loadTextFile(url, elementId) {
-    fetch(url)
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById(elementId).innerText = data;
-      })
-      .catch(error => console.error('Error loading text file:', error));
-  }
-
   aboutB.addEventListener('click', (event) => {
     showContent('About');
     moveBubble(event.target);
-    loadTextFile('about.txt', 'aboutText');
   });
 
   contactB.addEventListener('click', (event) => {
