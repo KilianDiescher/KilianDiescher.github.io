@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     Projects: document.getElementById("educationContent"),
   };
 
+  requestAnimationFrame(() => {
+    moveBubble(aboutB);
+    showContent('About');
+    
+  });
+
   function showContent(section) {
     Object.values(contentSections).forEach(content => content.classList.remove('active'));
     contentSections[section].classList.add('active');
@@ -25,9 +31,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     bubble.style.top = `${rect.top - bodyRect.top - 5}px`;
   }
 
+
   aboutB.addEventListener('click', (event) => {
     showContent('About');
     moveBubble(event.target);
+  
   });
 
   contactB.addEventListener('click', (event) => {
@@ -49,9 +57,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
   });
 
   // Move the bubble to the "About" button initially and show the About content
-  requestAnimationFrame(() => {
-    moveBubble(aboutB);
-    showContent('About');
-    loadTextFile('About.txt', 'aboutText');
-  });
+  
 });
